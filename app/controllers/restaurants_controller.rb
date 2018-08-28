@@ -14,7 +14,7 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/new
   def new
-    @restaurant = Restaurant.new
+    @restaurant = current_user.restaurants.new
     authorize @restaurant
   end
 
@@ -25,9 +25,9 @@ class RestaurantsController < ApplicationController
   # POST /restaurants
   # POST /restaurants.json
   def create
-    authorize @restaurant
     @restaurant = Restaurant.new(restaurant_params)
     @restaurant.user = current_user
+    authorize @restaurant
 
     respond_to do |format|
       if @restaurant.save
@@ -68,10 +68,11 @@ class RestaurantsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
       @restaurant = Restaurant.find(params[:id])
+      authorize @restaurant
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def restaurant_params
-      params.require(:restaurant).permit(:name, :user_id)
+      params.require(:restaurant).permit(:name)
     end
 end

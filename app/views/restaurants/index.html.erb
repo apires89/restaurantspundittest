@@ -15,7 +15,7 @@
     <% @restaurants.each do |restaurant| %>
       <tr>
         <td><%= restaurant.name %></td>
-        <td><%= restaurant.user %></td>
+        <td><%= restaurant.user.email %></td>
         <td>
           <% if policy(restaurant).show? %>
             <%= link_to 'Show', restaurant %>
